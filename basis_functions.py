@@ -16,6 +16,7 @@ class Observables(object):
         self.cross_terms = cross_terms
 
     def handmade(self, x, u):
+        # note: all of these must have the state as the first two observables
         if self.choice == 1:
             lift_x = np.array([
                 x[0],
@@ -42,6 +43,8 @@ class Observables(object):
 
         if self.choice == 4:
             lift_x = np.array([
+                x[0],
+                x[1],
                 x[0]**2,
                 x[1]**2,
                 x[0]*x[1],
@@ -53,6 +56,8 @@ class Observables(object):
 
         if self.choice == 5:
             lift_x = np.array([
+                x[0],
+                x[1],
                 np.sin(x[0]),
                 np.sin(x[1]),
                 np.cos(x[0]),
@@ -60,6 +65,7 @@ class Observables(object):
             ])
 
         if self.choice == 6:
+            print("ballsack")
             lift_x = np.array([
                 x[0],
                 x[1],
