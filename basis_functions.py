@@ -65,12 +65,25 @@ class Observables(object):
             ])
 
         if self.choice == 6:
-            print("ballsack")
             lift_x = np.array([
                 x[0],
                 x[1],
                 np.exp(x[0]),
                 np.exp(x[1])
+            ])
+
+        if self.choice == 7:
+            # hard-coded Hermitian polynomials up
+            # to order 4
+            lift_x = np.array([
+                x[0],
+                x[1],
+                x[0]**2 - 1,
+                x[1]**2 - 1,
+                x[0]**3 - 3*x[0],
+                x[1]**3 - 3*x[1],
+                x[0]**4 - 6*x[0]**2 + 3,
+                x[1]**4 - 6*x[1]**2 + 3
             ])
 
         #NOTE: since all of our systems have scalar input,
@@ -126,6 +139,7 @@ class Observables(object):
         """
         Construct the Hermitian polynomial of order n
         """
+        n += 1 # because n=0 => polynomial of 1
         deriv_func = lambda v: np.exp(-0.5*v**2)
         deriv_term = self.higher_derivative(deriv_func, n)
         herm_poly = lambda a: (-1.)**n * np.exp(0.5*a**2) * deriv_term(a)
