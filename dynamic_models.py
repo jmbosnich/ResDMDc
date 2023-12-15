@@ -161,3 +161,42 @@ class SystemWithKoopmanInvariantSubspace(object):
 
         self.state = self.state + (1/6.) * (k1+2.0*k2+2.0*k3+k4)
         return self.state.copy()
+    
+class SpringMassSystem(object):
+    """
+    Single 2nd order mass-spring system with no damping
+    """
+    def __init__(self, dt=0.001, k=1, m=1):
+        self.name = "SpringMass"
+        self.dt = dt
+        self.k = k  # spring constant
+        self.m = m  # mass
+        self.num_states = 2
+        self.num_inputs = 1
+        self.reset()
+
+    def reset(self, state=None):
+        if state is None:
+            self.state = np.random.uniform(-5., 5., size=(self.num_states,))
+        else:
+            self.state = state.copy()
+        return self.state.copy()
+    
+    def sample_input(self):
+        return np.random.uniform(-5., 5., size=(self.num_inputs,))
+
+    def dynamics(self, x, u):
+        xdot = np.array([
+            x[1],
+            (u[0] - self.k*x[0])/self.m
+        ])
+        return xdot
+
+    def step(self, u):
+        k1 = self.dt * self.dynamics(self.state, u)
+        k2 = self.dt * self.dynamics(self.state + k1/2., u)
+        k3 = self.dt * self.dynamics(self.state + k2/2., u)
+        k4 = self.dt * self.dynamics(self.state + k3, u)
+
+        self.state = self.state + (1/6.) * (k1+2.0*k2+2.0*k3+k4)
+        return self.state.copy()
