@@ -56,7 +56,7 @@ class ContinuousLinearSystem(object):
         self.num_states = 2
         self.num_inputs = 1
         self.reset()
-        self.evals = [np.exp(-1*dt), np.exp(-2*dt)] # eigenvalues of the discretized system
+        self.evals = [np.exp(-1*dt), np.exp(2*dt)] # eigenvalues of the discretized system
 
     def reset(self, state=None):
         if state is None:
@@ -70,8 +70,8 @@ class ContinuousLinearSystem(object):
 
     def dynamics(self, x, u):
         xdot = np.array([
-            x[0] + x[1],
-            -2*x[1] + u[0]
+            2*x[0] + x[1] + u[0],
+            -x[0] - x[1]
         ])
         return xdot
 
@@ -94,11 +94,11 @@ class DiscreteLinearSystem(object):
         self.num_states = 2
         self.num_inputs = 1
         self.reset()
-        self.evals = [0.5, -0.75]
+        self.evals = [1.01, -0.5]
 
     def reset(self, state=None):
         if state is None:
-            self.state = np.random.uniform(-5., 5., size=(self.num_states,))
+            self.state = np.random.uniform(-3., 3., size=(self.num_states,))
         else:
             self.state = state.copy()
         return self.state.copy()

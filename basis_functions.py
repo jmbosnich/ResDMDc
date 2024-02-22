@@ -43,6 +43,7 @@ class Observables(object):
 
         if self.choice == 4:
             lift_x = np.array([
+                1,
                 x[0],
                 x[1],
                 x[0]**2,
